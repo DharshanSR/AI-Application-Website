@@ -5,10 +5,10 @@ import "./index.css";
 import HomePage from "./pages/home/home.page.jsx";
 import JobPage from "./pages/job/job.page";
 
-import RootLayout from "./layouts/root.layout.jsx";
-import SignInPage from "./pages/sign-in-page.jsx";
-import SignUpPage from "./pages/sign-up-page.jsx";
-import MainLayout from "./layouts/main.layout.jsx";
+import RootLayout from "./layouts/root.layout";
+import SignInPage from "./pages/sign-in.page";
+import SignUpPage from "./pages/sign-up.page";
+import MainLayout from "./layouts/main.layout";
 
 const router = createBrowserRouter([
     {
