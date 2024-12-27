@@ -1,12 +1,26 @@
-import express, { Request, Response } from 'express';
+import express from "express";
 
 const app = express();
-const port = 8000;
+app.use(express.json());
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello, TypeScript with Express!');
-});
+const jobs = [
+  {
+    _id: "xyz",
+    title: "Intern - Software Engineer",
+    type: "Full-time",
+    location: "Remote",
+  },
+  {
+    _id: "abc",
+    title: "Software Engineer",
+    type: "Full-time",
+    location: "Remote",
+  },
+];
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+app.get("/jobs",(req, res) =>{
+  res.json(jobs)
+})
+
+
+app.listen(4000, () => console.log("Server is listening on port 4000."));
