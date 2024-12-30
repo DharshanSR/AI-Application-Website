@@ -6,11 +6,17 @@ export const createJobApplication = async (
   res: Response,
   next: NextFunction
 ) => {
-  const jobApplication = req.body;
-  console.log(jobApplication);
+  try {
+    const jobApplication = req.body;
+    console.log(jobApplication);
 
-  const createdJobApplication = await JobApplication.create(jobApplication);
-  return res.status(201).send();
+    const createdJobApplication = await JobApplication.create(jobApplication);
+    return res.status(201).send();
+  } catch (error) {
+    console.log(error)
+    return res.status(500).send();
+  }
+
 };
 
 
@@ -18,16 +24,21 @@ export const getJobApplications = async (
   req: Request,
   res: Response,
 ) => {
+  try {
+    const { jobid } = req.query;
 
-  const { jobid } = req.query;
+    if (jobid) {
+      const jobApplications = await JobApplication.find({ job: jobid })
+      return res.status(200).json(jobApplications);
+    }
 
-  if (jobid) {
-    const jobApplications = await JobApplication.find({ job: jobid })
+    const jobApplications = await JobApplication.find().populate("job").exec();
     return res.status(200).json(jobApplications);
+  } catch (error) {
+    console.log(error)
+    return res.status(500).send();
   }
 
-  const jobApplications = await JobApplication.find().populate("job").exec();
-  return res.status(200).json(jobApplications);
 
 };
 
@@ -35,10 +46,16 @@ export const getJobApplicationById = async (
   req: Request,
   res: Response,
 ) => {
-  const { id } = req.params;
-  const jobApplication = await JobApplication.findById(id);
-  if (jobApplication === null) {
-    return res.status(404).send();
+  try {
+    const { id } = req.params;
+    const jobApplication = await JobApplication.findById(id);
+    if (jobApplication === null) {
+      return res.status(404).send();
+    }
+    return res.status(200).json(jobApplication);
+  } catch (error) {
+    console.log(error)
+    return res.status(500).send();
   }
-  return res.status(200).json(jobApplication);
+
 }
