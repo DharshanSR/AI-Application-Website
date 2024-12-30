@@ -30,30 +30,12 @@ export const deleteJob = async (req: Request, res: Response) => {
     return res.status(204).send();
 }
 
-export const updateJobType = async (req: Request, res: Response) => {
-    try {
-        // Find the job by ID
-        const jobToUpdate = await Job.findById(req.params._id);
-
-        // If the job is not found, return 404
-        if (!jobToUpdate) {
-            return res.status(404).send('Job not found');
-        }
-
-        // Update the job type
-        const updatedJob = await Job.findByIdAndUpdate(
-            req.params._id,
-            {
-                type: req.body.type // Update the 'type' field
-            },
-            { new: true } // Return the updated document
-        );
-
-        // Respond with the updated job
-        return res.status(200).json(updatedJob); // Return updated job as response
-    } catch (error) {
-        // Handle errors
-        console.error(error);
-        return res.status(500).send('Error updating job');
+export const updateJob = async (req: Request, res: Response) => {
+    const jobToUpdate = Job.findById(req.params._id);
+    if (!jobToUpdate) {
+        return res.status(404).send();
     }
+
+    await Job.findByIdAndUpdate(req.params._id, { title: req.body.title, location: req.body.location, type: req.body.type });
+    return res.status(204).send();
 }
